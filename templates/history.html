@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Prediction History</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f1f5f9;
+            color: #243247;
+            line-height: 1.6;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #10243b, #17466a);
+            color: white;
+            text-align: center;
+            padding: 27px 15px;
+        }
+
+        .header h1 {
+            font-size: 25px;
+        }
+
+        .header p {
+            color: #d5e3ef;
+            font-size: 14px;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 1050px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 8px 30px rgba(15, 35, 60, 0.08);
+        }
+
+        .top-label {
+            display: inline-block;
+            background: #e6f5f2;
+            color: #087f70;
+            padding: 6px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .container h2 {
+            color: #10243b;
+            font-size: 23px;
+            margin-bottom: 6px;
+        }
+
+        .description {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        /* SUMMARY */
+        .summary {
+            background: #f0fdfa;
+            border: 1px solid #ccfbf1;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .summary p {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .summary h3 {
+            color: #087f70;
+            font-size: 25px;
+            margin-top: 4px;
+        }
+
+        /* TABLE */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th {
+            background: #10243b;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 13px;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        tbody tr:hover {
+            background: #f0fdfa;
+        }
+
+        /* RISK LABELS */
+        .risk {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .high-risk {
+            background: #ffe4e6;
+            color: #be123c;
+        }
+
+        .low-risk {
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        .probability {
+            font-weight: 700;
+            color: #334155;
+        }
+
+        /* EMPTY STATE */
+        .empty {
+            text-align: center;
+            padding: 35px 15px;
+            color: #64748b;
+        }
+
+        /* BUTTON */
+        .actions {
+            margin-top: 28px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #087f70;
+            color: white;
+            padding: 13px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            transition: 0.25s;
+        }
+
+        .btn:hover {
+            background: #06665b;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 12px;
+            padding: 20px;
+        }
+
+        /* MOBILE */
+        @media(max-width: 650px) {
+            .container {
+                margin: 20px 12px;
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 21px;
+            }
+
+            .container h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <h1>Credit Risk Classification System</h1>
+    <p>Customer Assessment History</p>
+</header>
+
+<main class="container">
+
+    <span class="top-label">ASSESSMENT RECORDS</span>
+
+    <h2>Previous Customer Assessments</h2>
+
+    <p class="description">
+        View and monitor previously completed credit risk assessments.
+    </p>
+
+    <div class="summary">
+        <p>Total Customer Assessments</p>
+        <h3>{{ records|length }}</h3>
+    </div>
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Prediction</th>
+                    <th>Default Probability</th>
+                    <th>Date and Time</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for record in records %}
+
+                <tr>
+
+                    <td>{{ record.id }}</td>
+
+                    <td>
+                        {% if record.prediction == "High Credit Risk (Default)" %}
+                          <span class="risk high-risk">
+                                High Credit Risk
+                                 </span>
+                                    {% else %}
+                                    <span class="risk low-risk">
+                                      Low Credit Risk
+                     </span>
+                            {% endif %}
+                    </td>
+
+                    <td class="probability">
+                        {% if record.probability is not none %}
+                            {{ "%.2f"|format(record.probability * 100) }}%
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+
+                    <td>{{ record.created_at }}</td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+                    <td colspan="4" class="empty">
+                        No assessment records available yet.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="actions">
+        <a href="/" class="btn">
+            ← Back to Assessment
+        </a>
+    </div>
+
+</main>
+
+<footer class="footer">
+    Credit Risk Classification System | Academic Project
+</footer>
+
+</body>
+</html>

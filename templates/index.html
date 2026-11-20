@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Credit Risk Assessment System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f1f5f9;
+            color: #243247;
+            line-height: 1.6;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #10243b, #17466a);
+            color: white;
+            padding: 28px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 27px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: #d5e3ef;
+            font-size: 14px;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 1050px;
+            margin: 35px auto;
+            padding: 35px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 8px 30px rgba(15, 35, 60, 0.08);
+        }
+
+        .top-label {
+            display: inline-block;
+            background: #e6f5f2;
+            color: #087f70;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .intro h2 {
+            color: #10243b;
+            font-size: 23px;
+            margin-bottom: 7px;
+        }
+
+        .intro p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        /* SECTION HEADINGS */
+        .section-title {
+            color: #087f70;
+            font-size: 16px;
+            font-weight: 700;
+            margin: 28px 0 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        /* FORM GRID */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 19px;
+        }
+
+        .form-field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 7px;
+        }
+
+        .form-field input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: #f8fafc;
+            color: #1e293b;
+            font-size: 14px;
+            outline: none;
+            transition: 0.25s;
+        }
+
+        .form-field input:focus {
+            border-color: #087f70;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(8, 127, 112, 0.12);
+        }
+
+        .form-field input::placeholder {
+            color: #94a3b8;
+        }
+
+        /* BUTTON */
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 30px;
+            background: #087f70;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .submit-btn:hover {
+            background: #06665b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(8, 127, 112, 0.2);
+        }
+
+        /* HISTORY LINK */
+        .history {
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        .history a {
+            color: #087f70;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .history a:hover {
+            text-decoration: underline;
+        }
+
+        /* NOTICE */
+        .notice {
+            margin-top: 25px;
+            padding: 13px 15px;
+            background: #f1f5f9;
+            border-left: 4px solid #64748b;
+            border-radius: 5px;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 12px;
+            padding: 20px;
+        }
+
+        /* MOBILE RESPONSIVENESS */
+        @media (max-width: 650px) {
+            .header h1 {
+                font-size: 21px;
+            }
+
+            .container {
+                margin: 18px 12px;
+                padding: 22px 17px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .intro h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>Credit Risk Classification System</h1>
+        <p>Intelligent Credit Assessment Using Supervised Learning</p>
+    </header>
+
+    <main class="container">
+
+        <div class="intro">
+            <span class="top-label">CREDIT ASSESSMENT PORTAL</span>
+
+            <h2>Customer Risk Assessment</h2>
+
+            <p>
+                Enter the customer's financial and repayment information
+                below to generate a credit risk prediction.
+            </p>
+        </div>
+
+        <form action="/predict" method="POST">
+
+            <h3 class="section-title">
+                Customer Financial Information
+            </h3>
+
+            <div class="form-grid">
+
+                {% for feature in features %}
+
+                <div class="form-field">
+
+                    <label for="{{ feature }}">
+                        {{ feature.replace('_', ' ') }}
+                    </label>
+
+                    <input
+                        type="number"
+                        id="{{ feature }}"
+                        name="{{ feature }}"
+                        step="any"
+                        required
+                        placeholder="Enter {{ feature.replace('_', ' ') }}"
+                    >
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            <button type="submit" class="submit-btn">
+                Assess Credit Risk →
+            </button>
+
+        </form>
+
+        <div class="history">
+            <a href="/history">View Previous Assessments →</a>
+        </div>
+
+        <div class="notice">
+            <strong>Note:</strong> This system provides machine-learning
+            predictions for decision support. Results are estimates and
+            should not be treated as guaranteed lending decisions.
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        Credit Risk Classification System | Academic Project
+    </footer>
+
+</body>
+</html>

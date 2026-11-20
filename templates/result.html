@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Credit Risk Assessment Result</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f1f5f9;
+            color: #243247;
+            line-height: 1.6;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #10243b, #17466a);
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+        }
+
+        .header h1 {
+            font-size: 25px;
+        }
+
+        .header p {
+            color: #d5e3ef;
+            font-size: 14px;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 650px;
+            margin: 55px auto;
+            padding: 35px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 8px 30px rgba(15, 35, 60, 0.08);
+        }
+
+        .top-label {
+            display: inline-block;
+            background: #e6f5f2;
+            color: #087f70;
+            padding: 6px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .title {
+            color: #10243b;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        /* RESULT CARD */
+        .result-card {
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .high-risk {
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+        }
+
+        .low-risk {
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+        }
+
+        .result-card h2 {
+            font-size: 23px;
+            margin: 10px 0;
+        }
+
+        .high-risk h2 {
+            color: #be123c;
+        }
+
+        .low-risk h2 {
+            color: #047857;
+        }
+
+        .status {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .high-risk .status {
+            color: #be123c;
+        }
+
+        .low-risk .status {
+            color: #047857;
+        }
+
+        .prediction {
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        /* PROBABILITY */
+        .probability-section {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+
+        .probability-heading {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .percentage {
+            color: #087f70;
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .progress {
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 20px;
+            background: #087f70;
+        }
+
+        .high-risk-bar {
+            background: #e11d48;
+        }
+
+        .probability-note {
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        /* INFORMATION NOTICE */
+        .notice {
+            background: #f1f5f9;
+            border-left: 4px solid #64748b;
+            padding: 14px;
+            border-radius: 5px;
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 25px;
+        }
+
+        /* NAVIGATION BUTTONS */
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .btn {
+            display: block;
+            text-align: center;
+            padding: 13px 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            transition: 0.25s;
+        }
+
+        .primary-btn {
+            background: #087f70;
+            color: white;
+        }
+
+        .primary-btn:hover {
+            background: #06665b;
+        }
+
+        .secondary-btn {
+            background: #e2e8f0;
+            color: #10243b;
+        }
+
+        .secondary-btn:hover {
+            background: #cbd5e1;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 12px;
+            padding: 20px;
+        }
+
+        /* MOBILE */
+        @media(max-width: 600px) {
+            .container {
+                margin: 25px 12px;
+                padding: 22px;
+            }
+
+            .actions {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 21px;
+            }
+
+            .title {
+                font-size: 21px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <h1>Credit Risk Classification System</h1>
+    <p>Intelligent Credit Assessment Using Supervised Learning</p>
+</header>
+
+<main class="container">
+
+    <span class="top-label">ASSESSMENT COMPLETED</span>
+
+    <h2 class="title">Credit Risk Assessment Result</h2>
+
+    <p class="subtitle">
+        The customer's financial information has been evaluated successfully.
+    </p>
+
+    {% if prediction == 1 %}
+
+    <section class="result-card high-risk">
+
+        <div class="status">High Credit Risk</div>
+
+        <h2>{{ result }}</h2>
+
+        <p class="prediction">
+            Predicted Class: {{ prediction }}
+        </p>
+
+    </section>
+
+    {% else %}
+
+    <section class="result-card low-risk">
+
+        <div class="status">Low Credit Risk</div>
+
+        <h2>{{ result }}</h2>
+
+        <p class="prediction">
+            Predicted Class: {{ prediction }}
+        </p>
+
+    </section>
+
+    {% endif %}
+
+
+    {% if probability is not none %}
+
+    <section class="probability-section">
+
+        <div class="probability-heading">
+            <span>Estimated Default Probability</span>
+
+            <span class="percentage">
+                {{ "%.2f"|format(probability * 100) }}%
+            </span>
+        </div>
+
+        <div class="progress">
+            <div
+                class="progress-bar {% if prediction == 1 %}high-risk-bar{% endif %}"
+                style="width: {{ probability * 100 }}%;">
+            </div>
+        </div>
+
+        <p class="probability-note">
+            This percentage represents the model's estimated probability
+            that the customer will default.
+        </p>
+
+    </section>
+
+    {% endif %}
+
+
+    <div class="notice">
+        <strong>Important Notice:</strong>
+        This system provides machine-learning predictions for
+        decision support. The result is an estimate and should
+        not be treated as a guaranteed lending decision.
+    </div>
+
+
+    <div class="actions">
+
+        <a href="/" class="btn primary-btn">
+            Assess Another Customer
+        </a>
+
+        <a href="/history" class="btn secondary-btn">
+            View Prediction History
+        </a>
+
+    </div>
+
+</main>
+
+<footer class="footer">
+    Credit Risk Classification System | Academic Project
+</footer>
+
+</body>
+</html>

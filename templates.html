@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Risk Classification System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header>
+    <h1>Credit Risk Classification System</h1>
+    <p>Supervised Machine Learning Prediction Platform</p>
+    <nav><a href="/">Assessment</a> | <a href="/history">Prediction History</a></nav>
+</header>
+
+<main>
+    <section class="container">
+        <h2>Customer Credit Assessment</h2>
+        <p>Enter all 23 customer details below.</p>
+
+        <form action="/predict" method="POST">
+
+            <h3>Personal and Credit Information</h3>
+
+            {% for feature in features %}
+                {% if feature in ["LIMIT_BAL", "SEX", "EDUCATION", "MARRIAGE", "AGE"] %}
+                <div class="form-group">
+                    <label for="{{ feature }}">{{ feature }}</label>
+                    <input
+                        type="number"
+                        step="any"
+                        id="{{ feature }}"
+                        name="{{ feature }}"
+                        placeholder="Enter {{ feature }}"
+                        required>
+                </div>
+                {% endif %}
+            {% endfor %}
+
+            <h3>Repayment Status</h3>
+
+            {% for feature in features %}
+                {% if feature.startswith("PAY_") %}
+                <div class="form-group">
+                    <label for="{{ feature }}">{{ feature }}</label>
+                    <input type="number" step="1"
+                        id="{{ feature }}" name="{{ feature }}"
+                        placeholder="Enter repayment status" required>
+                </div>
+                {% endif %}
+            {% endfor %}
+
+            <h3>Bill Statement Amounts</h3>
+
+            {% for feature in features %}
+                {% if feature.startswith("BILL_AMT") %}
+                <div class="form-group">
+                    <label for="{{ feature }}">{{ feature }}</label>
+                    <input type="number" step="any"
+                        id="{{ feature }}" name="{{ feature }}"
+                        placeholder="Enter bill amount" required>
+                </div>
+                {% endif %}
+            {% endfor %}
+
+            <h3>Previous Payment Amounts</h3>
+
+            {% for feature in features %}
+                {% if feature.startswith("PAY_AMT") %}
+                <div class="form-group">
+                    <label for="{{ feature }}">{{ feature }}</label>
+                    <input type="number" step="any"
+                        id="{{ feature }}" name="{{ feature }}"
+                        placeholder="Enter payment amount" required>
+                </div>
+                {% endif %}
+            {% endfor %}
+
+            <button type="submit">Assess Credit Risk</button>
+        </form>
+    </section>
+</main>
+
+<footer>
+    <p>Credit Risk Classification System | Machine Learning Project</p>
+</footer>
+
+</body>
+</html>
