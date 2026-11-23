@@ -9,7 +9,9 @@ from datetime import datetime
 app = Flask(__name__)
 
 # Load trained machine learning model
-MODEL_PATH = r"C:\Users\BEGE\model\credit_model.pkl"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "model", "credit_model.pkl")
+
 model = joblib.load(MODEL_PATH)
 
 # Exact features expected by your trained model
